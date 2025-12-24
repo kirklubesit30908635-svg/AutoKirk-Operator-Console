@@ -1,0 +1,13 @@
+KDH FOUNDER CHAT v3 (FIXED) — WHAT CHANGED
+
+Fixes Vercel build failures caused by missing module imports:
+- Adds tsconfig alias mapping for @/*
+- Adds lib/supabase/browser.ts and lib/supabase/server.ts
+- Adds components/ui/index.tsx (minimal UI primitives)
+- Adds TypeScript devDependencies in package.json
+
+How to use:
+1) Unzip and replace/merge into your repo (overwrite existing).
+2) npm install
+3) git add . && git commit -m "Apply v3 fixed package" && git push
+4) Vercel Settings: Build Command = npm run build; Output Directory blank.
