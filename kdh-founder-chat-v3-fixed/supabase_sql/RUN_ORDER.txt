@@ -1,8 +1,0 @@
-RUN ORDER (Supabase SQL Editor)
-
-00_profiles_founder_role.sql
-01_is_founder_function.sql
-02_rls_mvp_threads_messages.sql
-03_rls_vault_entries.sql
-04_thread_summaries.sql
-05_rate_limit.sql
