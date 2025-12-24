@@ -1,0 +1,17 @@
+KDH FOUNDER CHAT v2 — UPLOAD RUNBOOK
+
+1) Unzip this package locally.
+2) Supabase:
+   - Supabase > SQL Editor
+   - Run scripts in supabase_sql/RUN_ORDER.txt order
+   - Set your user to profiles.role='founder'
+3) App env:
+   - Copy .env.example -> .env.local
+   - Fill: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, OPENAI_API_KEY
+4) Local test:
+   - npm install
+   - npm run dev
+   - /founder/login then /founder
+5) Deploy:
+   - Vercel: Import repo, set env vars, deploy, map kirkdigitalholdings.com
+   - Or Netlify with Next.js runtime/plugin
