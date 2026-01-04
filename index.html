@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Autokirk Operator Console — Governed Execution</title>
+  <meta name="description" content="Autokirk Operator Console is the subscription front-end for governed, auditable execution: propose → approve → execute → proof." />
+  <meta name="theme-color" content="#0b0b0f" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="bg-noise" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark">AK</span>
+        <span class="brand-name">Autokirk</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#proof">Proof</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <a class="btn btn-ghost" href="#access">Request Access</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="pill">
+            <span class="dot"></span>
+            <span>Governed execution, built for operators</span>
+          </div>
+          <h1>Propose. Approve. Execute. <span class="gold">Prove.</span></h1>
+          <p class="lead">
+            Autokirk Operator Console is a minimal, trust-first operations UI that routes meaningful actions through
+            explicit human approvals and produces an auditable proof trail.
+          </p>
+          <div class="cta-row">
+            <a class="btn" href="#access">Request early access</a>
+            <a class="btn btn-ghost" href="#how">See the loop</a>
+          </div>
+
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-k">No silent execution</div>
+              <div class="metric-v">Explicit approval required</div>
+            </div>
+            <div class="metric">
+              <div class="metric-k">Audit trail</div>
+              <div class="metric-v">Before/after + reasons</div>
+            </div>
+            <div class="metric">
+              <div class="metric-k">Reversible by design</div>
+              <div class="metric-v">Bounded blast radius</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card" role="img" aria-label="Operator Console preview">
+          <div class="card-top">
+            <div class="chips">
+              <span class="chip">Intent</span>
+              <span class="chip">Proposal</span>
+              <span class="chip gold-chip">Approval</span>
+              <span class="chip">Execution</span>
+              <span class="chip">Proof</span>
+            </div>
+            <div class="status">
+              <span class="badge badge-ok">READY</span>
+              <span class="status-text">Governed State Change</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="lbl">Action</div>
+              <div class="val">Update operator state (arm_state)</div>
+            </div>
+            <div class="row">
+              <div class="lbl">Gate checks</div>
+              <div class="val mono">kill_switch → elimination_registry → approval_validity</div>
+            </div>
+            <div class="row">
+              <div class="lbl">Result</div>
+              <div class="val"><span class="pill2"><span class="mini-dot"></span>Executed via controlled RPC</span></div>
+            </div>
+
+            <div class="log">
+              <div class="log-line"><span class="t">00:00</span> Intent captured</div>
+              <div class="log-line"><span class="t">00:02</span> Proposal generated</div>
+              <div class="log-line"><span class="t">00:05</span> Approval consumed (single-use)</div>
+              <div class="log-line"><span class="t">00:06</span> Execution recorded</div>
+              <div class="log-line"><span class="t">00:07</span> Proof artifact written</div>
+            </div>
+
+            <div class="card-actions">
+              <button class="btn btn-small" type="button" data-toast="This is a static preview. Your real console will run with governed execution behind it.">Preview action</button>
+              <a class="btn btn-small btn-ghost" href="#proof">View proof claims</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof" class="section">
+      <div class="container">
+        <h2>Proof-first credibility</h2>
+        <p class="sub">
+          Autokirk is designed as an AI governance control plane. The Operator Console is the user-facing surface that earns trust through verifiable outcomes.
+        </p>
+
+        <div class="grid-3">
+          <div class="panel">
+            <div class="panel-title">Governed execution</div>
+            <p>Every meaningful action is gated by explicit human authorization. No approval, no execution.</p>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Single-use approvals</div>
+            <p>Replay attempts are blocked. Approvals are consumed atomically on success.</p>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Auditable proof trail</div>
+            <p>Before/after state, rationale, and timestamps are written as proof artifacts for inspection and reporting.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section section-alt">
+      <div class="container">
+        <h2>The operator loop</h2>
+        <p class="sub">Simple, deterministic, and built to scale with governance—then velocity.</p>
+
+        <ol class="steps">
+          <li><span class="step-n">1</span><div><strong>Intent</strong><div class="muted">You declare the outcome and constraints.</div></div></li>
+          <li><span class="step-n">2</span><div><strong>Plan</strong><div class="muted">The system proposes a concrete, reviewable path.</div></div></li>
+          <li><span class="step-n">3</span><div><strong>Proposal</strong><div class="muted">A specific state change is drafted for approval.</div></div></li>
+          <li><span class="step-n gold-n">4</span><div><strong>Explicit Authorization</strong><div class="muted">You approve a single-use authorization with expiry.</div></div></li>
+          <li><span class="step-n">5</span><div><strong>Controlled Execution</strong><div class="muted">Execution occurs only via governed pathways.</div></div></li>
+          <li><span class="step-n">6</span><div><strong>Verification & Proof</strong><div class="muted">Results are verified and logged with reversal context.</div></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+      <div class="container">
+        <h2>Pricing</h2>
+        <p class="sub">Start minimal. Upgrade by proof and revenue.</p>
+
+        <div class="pricing">
+          <div class="price-card">
+            <div class="price-top">
+              <div class="price-name">Operator</div>
+              <div class="price-tag">$49<span>/mo</span></div>
+            </div>
+            <ul class="price-list">
+              <li>Operator Console access</li>
+              <li>Approval-gated actions</li>
+              <li>Audit trail & proof artifacts</li>
+              <li>Email support</li>
+            </ul>
+            <a class="btn btn-ghost" href="#access">Request access</a>
+          </div>
+
+          <div class="price-card featured">
+            <div class="shine" aria-hidden="true"></div>
+            <div class="price-top">
+              <div class="price-name">Builder</div>
+              <div class="price-tag">$99<span>/mo</span></div>
+            </div>
+            <ul class="price-list">
+              <li>Everything in Operator</li>
+              <li>Advanced governed workflows</li>
+              <li>Quarterly proof reports</li>
+              <li>Priority support</li>
+            </ul>
+            <a class="btn" href="#access">Request access</a>
+          </div>
+        </div>
+
+        <p class="fineprint">
+          Pricing shown is a placeholder for the public page. Final pricing is set at launch.
+        </p>
+      </div>
+    </section>
+
+    <section id="access" class="section section-alt">
+      <div class="container access">
+        <div class="access-copy">
+          <h2>Request early access</h2>
+          <p class="sub">Get on the short list. We’ll reach out with the next onboarding slot.</p>
+          <div class="callouts">
+            <div class="callout">✅ Operator-first UX</div>
+            <div class="callout">✅ Trust & proof</div>
+            <div class="callout">✅ Governance as the moat</div>
+          </div>
+        </div>
+
+        <form class="form" name="early-access" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="early-access" />
+          <label>
+            <span>Name</span>
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span>What are you trying to operate?</span>
+            <textarea name="use_case" rows="4" placeholder="e.g., recurring ops tasks, approvals, deployments, reporting..." required></textarea>
+          </label>
+          <button class="btn" type="submit">Submit</button>
+          <div class="form-note muted">This form is handled by Netlify Forms automatically.</div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="muted">© <span id="year"></span> Kirk Digital Holdings LLC. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#proof">Proof</a>
+        <a href="#how">How it works</a>
+        <a href="#access">Access</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
