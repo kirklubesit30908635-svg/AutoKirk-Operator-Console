@@ -1,0 +1,26 @@
+# secrets
+.env.local
+.env.*.local
+
+# next / node
+.next/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local tooling
+*.log
+*.tmp
+.DS_Store
+
+# supabase local dev artifacts (keep migrations separately later if needed)
+supabase/.temp/
+supabase/.branches/
+supabase/.cache/
+supabase/.env
+# throwaway local scripts
+inject-life-pulse.js
+
+# supabase local folder (we will commit migrations only later)
+supabase/

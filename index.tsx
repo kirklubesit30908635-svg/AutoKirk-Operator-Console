@@ -1,6 +1,8 @@
+import FounderStatusCard from "./FounderStatusCard";
 import * as React from "react";
 
-export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>
+<FounderStatusCard />) {
   const { className = "", ...rest } = props;
   return (
     <button className={`px-3 py-2 rounded border text-sm ${className}`} {...rest} />
