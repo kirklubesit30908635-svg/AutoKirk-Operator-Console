@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg0: #050608;
+  --bg1: #0a0c10;
+  --bg2: #0f1218;
+
+  --gold: #d1b26f;
+  --gold2: #e6cc8a;
+  --gold3: #9e7c2f;
+
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.66);
+  --faint: rgba(255, 255, 255, 0.45);
+
+  --ring: rgba(209, 178, 111, 0.28);
+  --line: rgba(209, 178, 111, 0.16);
+}
+
+html, body { height: 100%; }
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(1200px 700px at 18% 10%, rgba(209,178,111,0.12), transparent 60%),
+    radial-gradient(900px 600px at 82% 20%, rgba(230,204,138,0.06), transparent 65%),
+    linear-gradient(180deg, var(--bg0), var(--bg2) 45%, var(--bg0));
+}
+
+/* Subtle metallic gold text */
+.metal-gold {
+  background: linear-gradient(90deg, var(--gold3), var(--gold2), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Premium divider */
+.hr-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(209,178,111,0.55), transparent);
+}
+
+/* Glow ring for key blocks */
+.glow {
+  box-shadow:
+    0 0 0 1px rgba(209,178,111,0.16),
+    0 18px 60px rgba(0, 0, 0, 0.65);
+}
