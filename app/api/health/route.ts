@@ -3,21 +3,24 @@ import { createClient } from "@supabase/supabase-js";
 
 export async function GET() {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    if (!url || !key) {
+    if (!url || !serviceKey) {
       return NextResponse.json(
-        { ok: false, error: "Missing SUPABASE env vars" },
+        { ok: false, error: "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY" },
         { status: 500 }
       );
     }
 
-    const supabase = createClient(url, key, { auth: { persistSession: false } });
+    const supabase = createClient(url, serviceKey, {
+      auth: { persistSession: false },
+    });
 
-    // Minimal “is DB reachable” check:
-    const { data, error } = await supabase.rpc("version"); // only if you created it
-    // If you don’t have rpc("version"), replace with a dedicated health table select.
+    const { error } = await supabase
+      .from("kill_switch") // public.kill_switch
+      .select("enabled")
+      .limit(1);
 
     if (error) {
       return NextResponse.json(
@@ -26,7 +29,7 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json({ ok: true, data });
+    return NextResponse.json({ ok: true });
   } catch (e: any) {
     return NextResponse.json(
       { ok: false, error: e?.message ?? "Unknown error" },
@@ -34,3 +37,5 @@ export async function GET() {
     );
   }
 }
+
+  
