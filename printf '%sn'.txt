@@ -1,0 +1,4 @@
+printf '%s\n' \
+'' \
+'NEXT_PUBLIC_SUPABASE_URL=https://ihkymfqyfbvsogdprris.supabase.co
+'SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVibXN2YWlzcHBub2lmbWFzZ3pxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NjEwMDY5OSwiZXhwIjoyMDgxNjc2Njk5fQ.PBQs-_EwE3UDaRnkey7KnzhNWn3LFFvFVn4FERtCsLg

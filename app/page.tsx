@@ -1,92 +1,71 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
-import { Card, Button, Input } from "@/components/ui";
+import { useState } from "react";
 
-export default function LoginPage() {
-  const supabase = useMemo(() => createBrowserSupabaseClient(), []);
+export default function HomePage() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [mode, setMode] = useState<"password" | "magic">("password");
   const [status, setStatus] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const params = useSearchParams();
-  const router = useRouter();
-  const nextPath = params.get("next") || "/founder";
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) router.push(nextPath);
-    });
-  }, [supabase, router, nextPath]);
-
-  async function signIn() {
-    setLoading(true);
-    setStatus(null);
-    try {
-      if (mode === "password") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        router.push(nextPath);
-      } else {
-        const { error } = await supabase.auth.signInWithOtp({
-          email,
-          options: { emailRedirectTo: `${window.location.origin}/founder` }
-        });
-        if (error) throw error;
-        setStatus("Magic link sent. Check your inbox.");
-      }
-    } catch (e: any) {
-      setStatus(e?.message || "Login failed.");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
-    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24 }}>
-      <div style={{ width: "100%", maxWidth: 520, display: "grid", gap: 14 }}>
-        <div style={{ display: "grid", gap: 6 }}>
-          <div style={{ fontSize: 22, fontWeight: 700 }}>KDH Founder Chat</div>
-          <div style={{ opacity: 0.8 }}>Founder-only access. Supabase Auth required.</div>
-        </div>
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        padding: 24,
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: 520 }}>
+        <h1 style={{ fontSize: 28, margin: 0 }}>KDH Founder Chat</h1>
+        <p style={{ marginTop: 8, opacity: 0.8 }}>
+          Build checkpoint: no UI libraries, no aliases. Auth wiring next.
+        </p>
 
-        <Card>
-          <div style={{ display: "grid", gap: 10 }}>
-            <div style={{ display: "flex", gap: 10 }}>
-              <Button variant={mode === "password" ? "primary" : "ghost"} onClick={() => setMode("password")}>Password</Button>
-              <Button variant={mode === "magic" ? "primary" : "ghost"} onClick={() => setMode("magic")}>Magic Link</Button>
-            </div>
+        <div
+          style={{
+            marginTop: 16,
+            padding: 16,
+            border: "1px solid rgba(0,0,0,0.15)",
+            borderRadius: 10,
+          }}
+        >
+          <label style={{ display: "block" }}>
+            <div style={{ marginBottom: 6, opacity: 0.8 }}>Email</div>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@kirkdigitalholdings.com"
+              style={{
+                width: "100%",
+                padding: "10px 12px",
+                borderRadius: 8,
+                border: "1px solid rgba(0,0,0,0.2)",
+                outline: "none",
+              }}
+            />
+          </label>
 
-            <div style={{ display: "grid", gap: 10 }}>
-              <label>
-                <div style={{ marginBottom: 6, opacity: 0.8 }}>Email</div>
-                <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@kirkdigitalholdings.com" />
-              </label>
+          <button
+            type="button"
+            onClick={() => setStatus("Auth wiring pending. Build-only checkpoint reached.")}
+            disabled={!email}
+            style={{
+              marginTop: 12,
+              width: "100%",
+              padding: "10px 12px",
+              borderRadius: 8,
+              border: "1px solid rgba(0,0,0,0.2)",
+              background: "transparent",
+              cursor: email ? "pointer" : "not-allowed",
+            }}
+          >
+            Continue
+          </button>
 
-              {mode === "password" && (
-                <label>
-                  <div style={{ marginBottom: 6, opacity: 0.8 }}>Password</div>
-                  <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
-                </label>
-              )}
-
-              <Button onClick={signIn} disabled={loading || !email || (mode === "password" && !password)}>
-                {loading ? "Signing in..." : "Sign in"}
-              </Button>
-
-              {status && <div style={{ marginTop: 6, opacity: 0.9 }}>{status}</div>}
-            </div>
-          </div>
-        </Card>
-
-        <div style={{ opacity: 0.7, fontSize: 13 }}>
-          If you get a 403 after login, your Supabase profile is not marked as <code>founder</code>.
+          {status && <div style={{ marginTop: 12, opacity: 0.85 }}>{status}</div>}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
