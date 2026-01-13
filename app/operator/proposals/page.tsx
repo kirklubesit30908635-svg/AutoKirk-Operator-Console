@@ -1,8 +1,11 @@
 export default function ProposalInboxPage() {
   return (
-    <main className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <main className="mx-auto max-w-5xl px-4 py-8 space-y-8">
       {/* Header */}
       <header className="space-y-2">
+        <p className="text-xs uppercase tracking-wide text-neutral-500">
+          Operator Console
+        </p>
         <h1 className="text-3xl font-semibold text-white">
           Proposal Inbox
         </h1>
@@ -11,19 +14,17 @@ export default function ProposalInboxPage() {
         </p>
       </header>
 
-      {/* How It Works */}
+      {/* Loop */}
       <section className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-5">
-        <h2 className="text-sm font-medium text-neutral-300 mb-2">
-          How actions happen
-        </h2>
-        <p className="text-sm text-neutral-400">
-          <span className="font-medium text-neutral-200">
-            Propose → Approve → Execute → Proof
-          </span>
+        <p className="text-xs uppercase tracking-wide text-neutral-500 mb-1">
+          Workflow
+        </p>
+        <p className="text-sm font-medium text-neutral-200">
+          Propose → Approve → Execute → Proof
         </p>
         <p className="mt-2 text-sm text-neutral-400 max-w-2xl">
-          Nothing executes without your approval. Every action produces a
-          permanent record you can inspect or reverse.
+          Nothing executes without your approval. Every action produces proof you
+          can inspect or reverse.
         </p>
       </section>
 
@@ -32,7 +33,7 @@ export default function ProposalInboxPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block text-xs text-neutral-400 mb-1">
-              Search proposals
+              Search
             </label>
             <input
               placeholder="ID, title, target…"
@@ -54,7 +55,7 @@ export default function ProposalInboxPage() {
 
           <div>
             <label className="block text-xs text-neutral-400 mb-1">
-              Risk level
+              Risk
             </label>
             <select className="w-full rounded-md bg-neutral-950 border border-neutral-800 px-3 py-2 text-sm text-white">
               <option>ALL</option>
@@ -70,45 +71,35 @@ export default function ProposalInboxPage() {
       <section className="space-y-3">
         <div>
           <h2 className="text-lg font-medium text-white">
-            Pending decisions
+            Inbox
           </h2>
           <p className="text-sm text-neutral-400">
-            Review scope, impact, and safeguards before approving execution.
+            Select a proposal to review scope, safeguards, and make an explicit decision.
           </p>
         </div>
 
         <ul className="space-y-3">
-          {/* Proposal Item */}
+          {/* Proposal */}
           <li className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 hover:border-neutral-700 transition">
-            <div className="flex justify-between items-start gap-4">
-              <div className="space-y-1">
-                <p className="font-medium text-white">
-                  Rotate public API key reference
-                </p>
-                <p className="text-sm text-neutral-400">
-                  <span className="text-neutral-300">P-00112</span> · Client-only env update · No secret exposure
-                </p>
-              </div>
-              <span className="text-xs rounded-full border border-neutral-700 px-2 py-1 text-neutral-300">
-                Low risk
-              </span>
+            <div className="space-y-1">
+              <p className="font-medium text-white">
+                Rotate public API key reference
+              </p>
+              <p className="text-sm text-neutral-400">
+                <span className="text-neutral-300">P-00112</span> · Client-only env update · No secret exposure
+              </p>
             </div>
           </li>
 
-          {/* Proposal Item */}
+          {/* Proposal */}
           <li className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 hover:border-neutral-700 transition">
-            <div className="flex justify-between items-start gap-4">
-              <div className="space-y-1">
-                <p className="font-medium text-white">
-                  Change system safety state
-                </p>
-                <p className="text-sm text-neutral-400">
-                  <span className="text-neutral-300">P-00094</span> · Set <code className="text-neutral-300">arm_state</code> → DISARMED · Governed execution with proof
-                </p>
-              </div>
-              <span className="text-xs rounded-full border border-neutral-700 px-2 py-1 text-neutral-300">
-                Medium risk
-              </span>
+            <div className="space-y-1">
+              <p className="font-medium text-white">
+                Change system safety state
+              </p>
+              <p className="text-sm text-neutral-400">
+                <span className="text-neutral-300">P-00094</span> · Set <code className="text-neutral-300">arm_state</code> → DISARMED · Governed execution with proof
+              </p>
             </div>
           </li>
         </ul>
