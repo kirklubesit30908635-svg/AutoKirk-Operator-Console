@@ -1,30 +1,15 @@
 import type { Config } from "tailwindcss";
 
-export default {
-  content: ["./app/**/*.{ts,tsx}"],
+const config: Config = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}"
+  ],
   theme: {
-    extend: {
-      colors: {
-        obsidian: {
-          950: "#050608",
-          900: "#0a0c10",
-          850: "#0f1218",
-          800: "#141a22"
-        },
-        imperial: {
-          gold: "#d1b26f",
-          gold2: "#e6cc8a",
-          gold3: "#9e7c2f"
-        }
-      },
-      boxShadow: {
-        royal: "0 12px 40px rgba(0,0,0,0.55)",
-        edge: "0 0 0 1px rgba(209,178,111,0.18)"
-      },
-      borderRadius: {
-        xl2: "1.25rem"
-      }
-    }
+    extend: {}
   },
   plugins: []
-} satisfies Config;
+};
+
+export default config;
