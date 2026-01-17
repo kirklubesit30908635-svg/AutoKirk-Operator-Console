@@ -1,6 +1,0 @@
-console.log("ENV CHECK", {
-  hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL=https://jepfrwevkwlodqllgsuv.supabase.co
-  hasAnon: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplcGZyd2V2a3dsb2RxbGxnc3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgzNjQxMDIsImV4cCI6MjA4Mzk0MDEwMn0.IQZLYLMRXk5VkiIfXJoEpKtr7LQZYgbA4aE3As-XRe8
-});
-
-app/api/execute/route.ts
