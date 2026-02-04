@@ -2,3 +2,7 @@
 .env.local
 node_modules
 .next
+
+# local-only
+kdh-founder-control/
+
