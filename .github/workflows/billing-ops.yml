@@ -1,23 +1,23 @@
-name: billing-ops-cycle
-
-on:
-  schedule:
-    - cron: "0 * * * *" # hourly (UTC)
-  workflow_dispatch: {}
-
-jobs:
-  run:
-    runs-on: ubuntu-latest
-    steps:
       - name: Call Supabase RPC run_billing_ops_cycle
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          curl -sS -X POST "$SUPABASE_URL/rest/v1/rpc/run_billing_ops_cycle" \
+          set -e
+
+          echo "Running Billing Ops Cycle..."
+
+          resp=$(curl -sS -X POST "$SUPABASE_URL/rest/v1/rpc/run_billing_ops_cycle" \
             -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
             -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
             -H "Content-Type: application/json" \
-            -d '{}' | cat
+            -d '{}')
 
+          echo "$resp"
 
+          if echo "$resp" | grep -qi "error"; then
+            echo "Supabase returned an error — failing workflow."
+            exit 1
+          fi
+
+          echo "Billing Ops Cycle completed successfully."
