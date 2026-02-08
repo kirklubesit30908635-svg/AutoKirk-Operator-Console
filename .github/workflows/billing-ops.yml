@@ -2,7 +2,7 @@ name: billing-ops-cycle
 
 on:
   schedule:
-    - cron: "0 * * * *" # every 5 minutes (UTC)
+    - cron: "0 * * * *" # hourly (UTC)
   workflow_dispatch: {}
 
 jobs:
@@ -19,4 +19,5 @@ jobs:
             -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
             -H "Content-Type: application/json" \
             -d '{}' | cat
+
 
