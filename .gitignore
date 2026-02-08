@@ -8,3 +8,6 @@ kdh-founder-control/
 
 .env*
 !.env.example
+
+_backup_before_schema_fix/
+
