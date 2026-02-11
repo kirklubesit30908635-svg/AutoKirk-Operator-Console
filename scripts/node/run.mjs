@@ -1,7 +1,8 @@
 ﻿import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { createRequire } from "node:module";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,6 +34,22 @@ function loadEnvLocal() {
   ok(`Loaded env file: ${ENV_PATH}`);
 }
 
+async function importSupabaseFromApp() {
+  // Resolve as if we were inside the app directory (stable across cwd)
+  const requireFromApp = createRequire(path.join(APP_DIR, "package.json"));
+  let resolved;
+  try {
+    resolved = requireFromApp.resolve("@supabase/supabase-js");
+  } catch {
+    fail("Missing @supabase/supabase-js in app. Fix: cd autokirk-operator-console && npm i @supabase/supabase-js");
+    return null;
+  }
+
+  const mod = await import(pathToFileURL(resolved).href);
+  ok("Loaded @supabase/supabase-js");
+  return mod;
+}
+
 async function doctor() {
   log("AutoKirk Orchestrator — run.mjs doctor");
   log(`Node: ${process.version}`);
@@ -52,23 +69,10 @@ async function doctor() {
     return;
   }
 
-  // CRITICAL: resolve node_modules from the Next app directory
-  try {
-    process.chdir(APP_DIR);
-    ok(`Module root set to app dir: ${APP_DIR}`);
-  } catch {
-    fail(`Cannot chdir to app dir: ${APP_DIR}`);
-    return;
-  }
+  const supa = await importSupabaseFromApp();
+  if (!supa) return;
 
-  let createClient;
-  try {
-    ({ createClient } = await import("@supabase/supabase-js"));
-    ok("Loaded @supabase/supabase-js");
-  } catch {
-    fail("Missing @supabase/supabase-js in app. Fix: cd autokirk-operator-console && npm i @supabase/supabase-js");
-    return;
-  }
+  const { createClient } = supa;
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
