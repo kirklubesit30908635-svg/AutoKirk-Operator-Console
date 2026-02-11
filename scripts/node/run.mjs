@@ -35,7 +35,6 @@ function loadEnvLocal() {
 }
 
 async function importSupabaseFromApp() {
-  // Resolve as if we were inside the app directory (stable across cwd)
   const requireFromApp = createRequire(path.join(APP_DIR, "package.json"));
   let resolved;
   try {
@@ -44,7 +43,6 @@ async function importSupabaseFromApp() {
     fail("Missing @supabase/supabase-js in app. Fix: cd autokirk-operator-console && npm i @supabase/supabase-js");
     return null;
   }
-
   const mod = await import(pathToFileURL(resolved).href);
   ok("Loaded @supabase/supabase-js");
   return mod;
@@ -80,9 +78,10 @@ async function doctor() {
     { auth: { persistSession: false, autoRefreshToken: false } }
   );
 
+  // PUBLIC API SURFACE (anon-readable wrapper views)
   const targets = [
-    { schema: "tucker", view: "v_current_open_obligations" },
-    { schema: "tucker", view: "v_promises_state" },
+    { schema: "public", view: "v_current_open_obligations" },
+    { schema: "public", view: "v_promises_state" }, // add wrapper or doctor will FAIL here
   ];
 
   for (const t of targets) {
