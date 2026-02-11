@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/supabaseBrowser'
@@ -22,7 +22,7 @@ export default function TuckerNextActionsPage() {
     setError(null)
 
     const { data, error } = await supabase
-      .from('v_current_open_obligations')
+      .schema('tucker').schema('tucker').from('v_current_open_obligations')
       .select('id, promise_id, due_at, severity')
       .order('due_at', { ascending: true })
       .limit(100)
@@ -52,7 +52,7 @@ export default function TuckerNextActionsPage() {
         </button>
       </div>
 
-      {loading && <div>Loading obligations…</div>}
+      {loading && <div>Loading obligationsâ€¦</div>}
 
       {!loading && error && (
         <div className='border rounded p-3 text-sm'>Error: {error}</div>
