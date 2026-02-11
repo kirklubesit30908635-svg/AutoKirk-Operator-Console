@@ -1,6 +1,6 @@
 ﻿/**
- * AutoKirk Dev Harness — Doctor v1.1
- * - Loads .env.local explicitly (so it works outside Next.js)
+ * AutoKirk Dev Harness — Doctor v1.1-fixed
+ * - Loads .env.local explicitly (works outside Next.js)
  * - No secrets printed
  * - Read-only checks only
  * - Exits non-zero on FAIL (CI-enforceable)
@@ -9,27 +9,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
-// Load env files explicitly
-function loadEnv() {
-  // doctor.mjs lives at: <repo>/scripts/node/doctor.mjs
-  // Next app env file lives at: <repo>/autokirk-operator-console/.env.local
-  const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..", "..");
-  const envPath = path.join(repoRoot, "autokirk-operator-console", ".env.local");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  try {
-    const dotenv = await import("dotenv");
-    if (fs.existsSync(envPath)) {
-      dotenv.config({ path: envPath });
-      console.log(`OK: Loaded env file: ${envPath}`);
-    } else {
-      console.log(`INFO: Env file not found: ${envPath}`);
-    }
-  } catch (e) {
-    console.error("FAIL: dotenv not installed. Run: cd autokirk-operator-console && npm i -D dotenv");
-    process.exit(1);
-  }
-}
+const REPO_ROOT = path.resolve(__dirname, "..", "..");
+const ENV_PATH = path.join(REPO_ROOT, "autokirk-operator-console", ".env.local");
 
 const REQUIRED_ENV = [
   "NEXT_PUBLIC_SUPABASE_URL",
@@ -53,15 +39,31 @@ function maskPresence(v) {
   return v ? "present" : "missing";
 }
 
+async function loadEnv() {
+  let dotenv;
+  try {
+    dotenv = await import("dotenv");
+  } catch {
+    fail("dotenv not installed. Run: cd autokirk-operator-console && npm i -D dotenv");
+    return;
+  }
+
+  if (fs.existsSync(ENV_PATH)) {
+    dotenv.config({ path: ENV_PATH });
+    ok(`Loaded env file: ${ENV_PATH}`);
+  } else {
+    console.log(`INFO: Env file not found: ${ENV_PATH}`);
+  }
+}
+
 async function main() {
-  console.log("AutoKirk Doctor v1.1");
+  console.log("AutoKirk Doctor v1.1-fixed");
   console.log(`Node: ${process.version}`);
   console.log("");
 
   await loadEnv();
   console.log("");
 
-  // 1) Env checks (presence only)
   for (const k of REQUIRED_ENV) {
     if (!process.env[k]) fail(`Missing required env: ${k}`);
     else ok(`Env ${k}: present`);
@@ -76,13 +78,12 @@ async function main() {
     return;
   }
 
-  // 2) Supabase connectivity + read-only view checks
   let createClient;
   try {
     ({ createClient } = await import("@supabase/supabase-js"));
     ok("Loaded @supabase/supabase-js");
-  } catch (e) {
-    fail("Missing dependency @supabase/supabase-js. Run: npm i @supabase/supabase-js");
+  } catch {
+    fail("Missing dependency @supabase/supabase-js. Run: cd autokirk-operator-console && npm i @supabase/supabase-js");
     return;
   }
 
