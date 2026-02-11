@@ -40,7 +40,7 @@ async function importSupabaseFromApp() {
   try {
     resolved = requireFromApp.resolve("@supabase/supabase-js");
   } catch {
-    fail("Missing @supabase/supabase-js in app. Fix: cd autokirk-operator-console && npm i @supabase/supabase-js");
+    fail("Missing @supabase/supabase-js in app (but you already proved it's installed). This indicates resolution root mismatch.");
     return null;
   }
   const mod = await import(pathToFileURL(resolved).href);
@@ -49,7 +49,7 @@ async function importSupabaseFromApp() {
 }
 
 async function doctor() {
-  log("AutoKirk Orchestrator — run.mjs doctor");
+  log("AutoKirk Orchestrator — run.mjs doctor (v1.2 schema-agnostic)");
   log(`Node: ${process.version}`);
   log("");
 
@@ -63,7 +63,7 @@ async function doctor() {
   }
   if (process.exitCode) {
     log("");
-    info("Fix: open autokirk-operator-console/.env.local and set required vars.");
+    info("Doctor halted due to missing required env.");
     return;
   }
 
@@ -78,16 +78,19 @@ async function doctor() {
     { auth: { persistSession: false, autoRefreshToken: false } }
   );
 
-  // PUBLIC API SURFACE (anon-readable wrapper views)
-  const targets = [
-    { schema: "public", view: "v_current_open_obligations" },
-    { schema: "public", view: "v_promises_state" }, // add wrapper or doctor will FAIL here
-  ];
+  // IMPORTANT: No schema() calls.
+  // We query the default exposed schema configured in PostgREST.
+  const views = ["v_current_open_obligations", "v_promises_state"];
 
-  for (const t of targets) {
-    const { data, error } = await supabase.schema(t.schema).from(t.view).select("*").limit(1);
-    if (error) fail(`Read check failed: ${t.schema}.${t.view} → ${error.message}`);
-    else ok(`Read check: ${t.schema}.${t.view} → ok (${Array.isArray(data) ? data.length : 0} rows)`);
+  for (const v of views) {
+    const { data, error } = await supabase.from(v).select("*").limit(1);
+    if (error) fail(`Read check failed: ${v} → ${error.message}`);
+    else ok(`Read check: ${v} → ok (${Array.isArray(data) ? data.length : 0} rows)`);
+  }
+
+  if (!process.exitCode) {
+    log("");
+    log("Doctor result: PASS");
   }
 }
 
