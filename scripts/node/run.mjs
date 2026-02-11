@@ -52,6 +52,15 @@ async function doctor() {
     return;
   }
 
+  // CRITICAL: resolve node_modules from the Next app directory
+  try {
+    process.chdir(APP_DIR);
+    ok(`Module root set to app dir: ${APP_DIR}`);
+  } catch {
+    fail(`Cannot chdir to app dir: ${APP_DIR}`);
+    return;
+  }
+
   let createClient;
   try {
     ({ createClient } = await import("@supabase/supabase-js"));
