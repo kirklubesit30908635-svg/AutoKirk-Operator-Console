@@ -1,0 +1,23 @@
+﻿name: Founder DevOps Pipeline v1
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  write_integrity_gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Write Integrity Gate
+        shell: pwsh
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          ./ops/gates/write-integrity.ps1 `
+            -SUPABASE_URL "$env:SUPABASE_URL" `
+            -SUPABASE_SERVICE_ROLE_KEY "$env:SUPABASE_SERVICE_ROLE_KEY"
