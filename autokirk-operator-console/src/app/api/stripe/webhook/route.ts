@@ -31,9 +31,14 @@ export async function POST(req: NextRequest) {
     try {
       event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (e: any) {
-      return NextResponse.json({ env, error: "Signature verification failed", detail: String(e?.message ?? e) }, { status: 400 });
+      return NextResponse.json(
+        { env, error: "Signature verification failed", detail: String(e?.message ?? e) },
+        { status: 400 }
+      );
     }
 
+    // NOTE: insertAttempt retained for debugging/log context and future expansion,
+    // but the write itself is governed by DB RPC (Soft Lock v0.9).
     const insertAttempt = {
       stripe_event_id: event.id,
       event_id: event.id,
@@ -44,17 +49,21 @@ export async function POST(req: NextRequest) {
       created: event.created,
     };
 
-    const { data, error } = await supabaseAdmin
-      .from("stripe_events")
-      .insert(insertAttempt as any)
-      .select("*")
-      .maybeSingle();
+    // SOFT LOCK v0.9: DB is the law surface (append-only, idempotent).
+    const { error: ingestErr } = await supabaseAdmin.rpc("fn_ingest_stripe_event", {
+      p_event_id: event.id,
+      p_event_type: event.type,
+      p_payload: event,
+    });
 
-    if (error) {
-      return NextResponse.json({ env, received: { id: event.id, type: event.type }, insert_error: error }, { status: 500 });
+    if (ingestErr) {
+      return NextResponse.json(
+        { env, received: { id: event.id, type: event.type }, ingest_error: ingestErr, attempted: insertAttempt },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ ok: true, received: { id: event.id, type: event.type }, inserted: data }, { status: 200 });
+    return NextResponse.json({ ok: true, received: { id: event.id, type: event.type } }, { status: 200 });
   } catch (err: any) {
     return NextResponse.json({ env, err: String(err?.message ?? err) }, { status: 500 });
   }
