@@ -74,10 +74,7 @@ export default function TuckerNextActionsPage() {
       reasonCode = reason.trim()
     } else {
       const defaultReason = outcome === 'lost' ? 'lost_to_competitor' : 'no_response'
-      const reason = window.prompt(
-        `Reason code? (e.g. ${defaultReason})`,
-        defaultReason
-      )
+      const reason = window.prompt(`Reason code? (e.g. ${defaultReason})`, defaultReason)
       if (reason === null || reason.trim().length === 0) {
         setCloseError('Reason code is required.')
         setClosingPromiseId(null)
@@ -91,9 +88,8 @@ export default function TuckerNextActionsPage() {
         ? crypto.randomUUID()
         : `${Date.now()}-${Math.random()}`
 
-    // NOTE: This assumes fn_close_promise_v2 signature:
-    // (promise_id uuid, outcome text, revenue_amount numeric, reason_code text, request_id uuid)
-    const { error } = await supabase.rpc('fn_close_promise_v2', {
+    // IMPORTANT: function lives in the api schema (not public)
+    const { error } = await supabase.schema('api').rpc('fn_close_promise_v2', {
       p_promise_id: promiseId,
       p_outcome: outcome,
       p_revenue_amount: revenueAmount,
