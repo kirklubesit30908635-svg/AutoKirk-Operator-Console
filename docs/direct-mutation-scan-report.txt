@@ -1,0 +1,21 @@
+AUTOKIRK SOFT LOCK v0.9 — DIRECT MUTATION SCAN REPORT
+Generated: 2/12/2026 12:39:52 PM
+RepoRoot: C:\kirk\autokirk\operator-console
+
+MATCH: C:\kirk\autokirk\operator-console\autokirk-operator-console\src\app\api\debug\bind-stripe\route.ts
+  Pattern: \.update\(
+  Lines 24-28:
+    24:   const { data, error } = await supabaseAdmin
+    25:     .from("tenants")
+    26:     .update({
+    27:       stripe_customer_id,
+    28:       stripe_subscription_id,
+
+MATCH: C:\kirk\autokirk\operator-console\autokirk-operator-console\src\app\api\stripe\webhook\route.ts
+  Pattern: \.insert\(
+  Lines 47-51:
+    47:     const { data, error } = await supabaseAdmin
+    48:       .from("stripe_events")
+    49:       .insert(insertAttempt as any)
+    50:       .select("*")
+    51:       .maybeSingle();

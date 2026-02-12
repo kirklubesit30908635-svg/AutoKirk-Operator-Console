@@ -1,3 +1,6 @@
+// SOFT LOCK v0.9: UI contains zero governance logic.
+// All state mutation must pass through governed API/RPC write paths.
+// If it isn't written here, it didn't happen.
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";

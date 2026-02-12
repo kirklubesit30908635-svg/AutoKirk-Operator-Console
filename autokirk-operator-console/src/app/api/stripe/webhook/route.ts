@@ -39,16 +39,7 @@ export async function POST(req: NextRequest) {
 
     // NOTE: insertAttempt retained for debugging/log context and future expansion,
     // but the write itself is governed by DB RPC (Soft Lock v0.9).
-    const insertAttempt = {
-      stripe_event_id: event.id,
-      event_id: event.id,
-      type: event.type,
-      event_type: event.type,
-      payload: event,
-      raw_event: event,
-      created: event.created,
-    };
-
+    const insertAttempt = require 
     // SOFT LOCK v0.9: DB is the law surface (append-only, idempotent).
     const { error: ingestErr } = await supabaseAdmin.rpc("fn_ingest_stripe_event", {
       p_event_id: event.id,
