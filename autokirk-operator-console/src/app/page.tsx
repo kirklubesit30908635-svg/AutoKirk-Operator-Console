@@ -1,135 +1,107 @@
-﻿export default function Home() {
+import Link from "next/link";
+
+const faces = [
+  {
+    code: "FACE 003",
+    title: "Dealership Enforcement",
+    desc: "Next Actions · Reassurance Search · Daily Check-In",
+    href: "/tucker",
+    status: "Operational",
+    cta: "Enter Face",
+  },
+  {
+    code: "FACE 001",
+    title: "Billing Enforcement",
+    desc: "Stripe intake → obligations → closure → receipts",
+    href: "/billing-ops",
+    status: "Execution Runner Paused",
+    cta: "Enter Face",
+    disabled: true,
+  },
+  {
+    code: "FACE",
+    title: "Advertising Enforcement",
+    desc: "Spend → Lead → Follow-Up → Sale → Margin → Renewal Gate",
+    href: "/advertising",
+    status: "Operational",
+    cta: "Enter Face",
+  },
+  {
+    code: "OPERATOR ACCESS",
+    title: "Authenticate",
+    desc: "Supabase magic-link access",
+    href: "/login",
+    status: "Access Controlled",
+    cta: "Authenticate",
+  },
+];
+
+export default function Home() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#000",
-        color: "#d4af37",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "48px 20px",
-        fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
-      }}
-    >
-      <div style={{ width: "min(980px, 100%)" }}>
-        <div style={{ marginBottom: 28 }}>
-          <div style={{ letterSpacing: 2, fontSize: 12, opacity: 0.85 }}>
-            AUTO KIRK • OPERATOR CONSOLE
-          </div>
-          <h1 style={{ margin: "10px 0 0", fontSize: 44, lineHeight: 1.05 }}>
+    <main className="min-h-screen bg-black text-zinc-100">
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-indigo-700/10 blur-3xl" />
+        <div className="absolute top-40 left-10 h-[420px] w-[420px] rounded-full bg-purple-600/10 blur-3xl" />
+        <div className="absolute bottom-10 right-10 h-[520px] w-[520px] rounded-full bg-blue-600/10 blur-3xl" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-6 py-16">
+        <header className="text-[#caa84a] text-xs tracking-[0.24em]">
+          AUTOKIRK OPERATOR CONSOLE
+        </header>
+
+        <section className="mt-8 max-w-3xl">
+          <h1 className="text-5xl font-semibold leading-[1.05] text-[#caa84a]">
             Surface Simplicity.
             <br />
             Core Ruthlessness.
           </h1>
-          <p style={{ margin: "16px 0 0", maxWidth: 720, color: "#c9b56f" }}>
+          <p className="mt-5 text-base leading-relaxed text-zinc-400">
             This UI does not govern. It routes you into governed execution. If it
             isn’t written here, it didn’t happen.
           </p>
-        </div>
+        </section>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 14,
-          }}
-        >
-          <Card
-            title="TUCKER"
-            desc="Next Actions. Reassurance search. Daily check-in."
-            href="/tucker"
-          />
-          <Card
-            title="Billing Ops"
-            desc="Stripe event intake → obligations → closure."
-            href="/"
-            disabled
-          />
-          <Card
-            title="Login"
-            desc="Supabase magic-link entry."
-            href="/login"
-          />
-        </div>
+        <section className="mt-12 grid gap-6 md:grid-cols-2">
+          {faces.map((f) => (
+            <Link key={f.title} href={f.href} className="block">
+              <div className="rounded-2xl border border-white/10 bg-black/40 p-6 backdrop-blur hover:border-[#caa84a]/40 transition">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs tracking-[0.18em] text-zinc-400">
+                    {f.code}
+                  </div>
+                  <div className="text-[11px] tracking-[0.14em] text-zinc-500">
+                    {f.status}
+                  </div>
+                </div>
 
-        <div style={{ marginTop: 22, fontSize: 12, color: "#a58f45" }}>
-          Tip: open <code style={codeStyle}>/tucker</code> to verify DB/RLS + views.
-        </div>
+                <div className="mt-4 text-xl font-semibold text-zinc-100">
+                  {f.title}
+                </div>
+                <div className="mt-2 text-sm leading-relaxed text-zinc-400">
+                  {f.desc}
+                </div>
+
+                <div
+                  className={[
+                    "mt-6 inline-flex w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold",
+                    f.disabled
+                      ? "bg-zinc-800 text-zinc-500"
+                      : "bg-[#caa84a] text-black hover:bg-[#d7b65a]",
+                  ].join(" ")}
+                >
+                  <span>{f.cta}</span>
+                  <span>→</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </section>
+
+        <footer className="mt-12 text-xs tracking-wide text-zinc-500">
+          Authority lives in the Core. UI is routing only.
+        </footer>
       </div>
     </main>
   );
 }
-
-function Card({
-  title,
-  desc,
-  href,
-  disabled,
-}: {
-  title: string;
-  desc: string;
-  href: string;
-  disabled?: boolean;
-}) {
-  const base: React.CSSProperties = {
-    border: "1px solid rgba(212,175,55,0.22)",
-    borderRadius: 14,
-    padding: 18,
-    background: "rgba(255,255,255,0.03)",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-  };
-
-  const linkStyle: React.CSSProperties = disabled
-    ? {
-        marginTop: 8,
-        padding: "10px 12px",
-        borderRadius: 10,
-        border: "1px solid rgba(212,175,55,0.18)",
-        color: "rgba(212,175,55,0.55)",
-        textDecoration: "none",
-        cursor: "not-allowed",
-        userSelect: "none",
-      }
-    : {
-        marginTop: 8,
-        padding: "10px 12px",
-        borderRadius: 10,
-        background: "#d4af37",
-        color: "#000",
-        textDecoration: "none",
-        fontWeight: 650,
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 10,
-      };
-
-  return (
-    <div style={base}>
-      <div style={{ fontSize: 12, opacity: 0.85, letterSpacing: 1.4 }}>
-        WORKSPACE
-      </div>
-      <div style={{ fontSize: 22, fontWeight: 750 }}>{title}</div>
-      <div style={{ color: "#c9b56f", lineHeight: 1.35 }}>{desc}</div>
-
-      {disabled ? (
-        <div style={linkStyle}>Locked</div>
-      ) : (
-        <a style={linkStyle} href={href}>
-          Enter <span aria-hidden="true">→</span>
-        </a>
-      )}
-    </div>
-  );
-}
-
-const codeStyle: React.CSSProperties = {
-  padding: "2px 6px",
-  borderRadius: 8,
-  background: "rgba(212,175,55,0.12)",
-  border: "1px solid rgba(212,175,55,0.18)",
-};
